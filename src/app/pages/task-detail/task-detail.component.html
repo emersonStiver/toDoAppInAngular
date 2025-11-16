@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+      <!-- Botón de volver -->
+      <button
+        routerLink="/dashboard"
+        class="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+      >
+        ← Volver al Dashboard
+      </button>
+
+      <!-- Detalle de tarea -->
+      <div *ngIf="task" class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-start mb-4">
+          <h1 class="text-3xl font-bold text-gray-800">{{ task.title }}</h1>
+          <span
+            class="px-3 py-1 rounded text-sm font-medium"
+            [class.bg-green-100]="task.priority === 'low'"
+            [class.text-green-800]="task.priority === 'low'"
+            [class.bg-yellow-100]="task.priority === 'medium'"
+            [class.text-yellow-800]="task.priority === 'medium'"
+            [class.bg-red-100]="task.priority === 'high'"
+            [class.text-red-800]="task.priority === 'high'"
+          >
+            {{ task.priority | priority }}
+          </span>
+        </div>
+
+        <div class="mb-4">
+          <span
+            class="px-3 py-1 rounded text-sm font-medium bg-gray-100 text-gray-800"
+          >
+            {{ task.status | status }}
+          </span>
+        </div>
+
+        <div *ngIf="task.description" class="mb-6">
+          <h2 class="text-lg font-semibold mb-2 text-gray-700">Descripción</h2>
+          <p class="text-gray-600 whitespace-pre-wrap">{{ task.description }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-1">Fecha de creación</h3>
+            <p class="text-gray-800">{{ formatDate(task.createdAt) }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-medium text-gray-500 mb-1">Última actualización</h3>
+            <p class="text-gray-800">{{ formatDate(task.updatedAt) }}</p>
+          </div>
+          <div *ngIf="task.dueDate">
+            <h3 class="text-sm font-medium text-gray-500 mb-1">Fecha de vencimiento</h3>
+            <p
+              class="text-gray-800"
+              [class.text-red-600]="isOverdue()"
+              [class.font-bold]="isOverdue()"
+            >
+              {{ formatDate(task.dueDate) }}
+              <span *ngIf="isOverdue()" class="ml-2">(Vencida)</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

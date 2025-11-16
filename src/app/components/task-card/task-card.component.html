@@ -1,0 +1,82 @@
+<div
+  class="bg-white rounded-lg shadow-md p-4 mb-4 border-l-4 transition-all hover:shadow-lg"
+  [class.border-red-500]="isOverdue()"
+  [class.border-blue-500]="!isOverdue()"
+>
+  <!-- Header con título y acciones -->
+  <div class="flex justify-between items-start mb-2">
+    <h3 class="text-lg font-semibold text-gray-800 flex-1">{{ task.title }}</h3>
+    <div class="flex gap-2">
+      <button
+        (click)="onEdit()"
+        class="text-blue-600 hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+        aria-label="Editar tarea"
+      >
+        ✏️
+      </button>
+      <button
+        (click)="onDelete()"
+        class="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
+        aria-label="Eliminar tarea"
+      >
+        🗑️
+      </button>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <p *ngIf="task.description" class="text-gray-600 text-sm mb-3">
+    {{ task.description }}
+  </p>
+
+  <!-- Badges de prioridad y estado -->
+  <div class="flex flex-wrap gap-2 mb-3">
+    <span
+      class="px-2 py-1 rounded text-xs font-medium border"
+      [ngClass]="getPriorityClasses(task.priority)"
+    >
+      {{ task.priority | priority }}
+    </span>
+    <span class="px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
+      {{ task.status | status }}
+    </span>
+  </div>
+
+  <!-- Fecha de vencimiento -->
+  <div *ngIf="task.dueDate" class="mb-3">
+    <span
+      class="text-xs"
+      [class.text-red-600]="isOverdue()"
+      [class.text-gray-600]="!isOverdue()"
+    >
+      📅 Vence: {{ formatDate(task.dueDate) }}
+      <span *ngIf="isOverdue()" class="font-bold">(Vencida)</span>
+    </span>
+  </div>
+
+  <!-- Botones de cambio de estado -->
+  <div class="flex gap-2 flex-wrap">
+    <button
+      *ngIf="task.status !== 'pending'"
+      (click)="changeStatus('pending')"
+      class="px-3 py-1 text-xs bg-gray-200 text-gray-700 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors"
+    >
+      ⏸️ Pendiente
+    </button>
+    <button
+      *ngIf="task.status !== 'in-progress'"
+      (click)="changeStatus('in-progress')"
+      class="px-3 py-1 text-xs bg-yellow-200 text-yellow-700 rounded hover:bg-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+    >
+      🔄 En progreso
+    </button>
+    <button
+      *ngIf="task.status !== 'completed'"
+      (click)="changeStatus('completed')"
+      class="px-3 py-1 text-xs bg-green-200 text-green-700 rounded hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+    >
+      ✅ Completada
+    </button>
+  </div>
+</div>
+

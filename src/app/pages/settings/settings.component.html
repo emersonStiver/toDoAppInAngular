@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-50">
+  <app-header
+    (searchChange)="onSearchChange($event)"
+    (createTaskClick)="onCreateTaskClick()"
+  ></app-header>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-3xl font-bold mb-6 text-gray-800">Configuración</h1>
+
+      <!-- Información del usuario -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Información de la cuenta</h2>
+        <div *ngIf="currentUser" class="space-y-3">
+          <div>
+            <label class="text-sm font-medium text-gray-500">Nombre</label>
+            <p class="text-gray-800">{{ currentUser.name }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Email</label>
+            <p class="text-gray-800">{{ currentUser.email }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-gray-500">Fecha de registro</label>
+            <p class="text-gray-800">{{ formatDate(currentUser.createdAt) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones peligrosas -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4 text-red-600">Zona de peligro</h2>
+        <div class="space-y-4">
+          <div>
+            <h3 class="font-medium text-gray-700 mb-2">Eliminar todos los datos</h3>
+            <p class="text-sm text-gray-600 mb-3">
+              Esta acción eliminará todas tus tareas, usuarios y sesiones. Esta acción no se puede deshacer.
+            </p>
+            <button
+              (click)="clearAllData()"
+              class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+            >
+              Eliminar todos los datos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
